@@ -42,7 +42,186 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
+    <main class="content">
+        <section>
+        <h2>Threat Model</h2>
+        <p>A proper threat model answers four questions:</p>
+        <ul>
+            <li>What are we protecting? (Assets)</li>
+            <li>Who are we protecting it from? (Adversaries)</li>
+            <li>How can they attack? (Attack surface + vectors)</li>
+            <li>How well are we defending? (Controls + assumptions + limits)</li>
+        </ul>
+        <p>Let’s go deeper than the simple bullet list.</p>
+        </section>
 
+
+        <section>
+        <h2>Assets (What needs protection)</h2>
+        <p>Even though your site is static HTML/CSS, it still has assets worth protecting:</p>
+        <ul>
+            <p>A. Core Assets</p>
+            <li>Website integrity (no defacement)</li>
+            <li> professional reputation (no malicious content injected).</li>
+            <li>Confidential data (none intentionally stored, but leakage must be avoided).</li>
+            <li>Host system security (the biggest real-world concern).</li>
+
+            <p>B. system Assets</p>
+            <li>Local filesystem of the host machine.</li>
+            <li>OS and its services (SSH, web server daemon, logging services).</li>
+            <li>Any future monitoring stack (Wazuh/ELK).</li>
+
+            <p>C. Operational Assets.</p>
+            <li>Log integrity.</li>
+            <li>Accurate detection data.</li>
+            <li>IR documentation.</li>
+            <li>Uptime/availability during demonstration.</li>
+            <li>Even small projects have meaningful assets.</li>
+
+        </ul>
+        </section>
+
+
+        <section>
+        <h2>Threat Actors (Who you are defending against).</h2>
+        <p>We classify them by capability, intent, and opportunity:</p>
+        <ul>
+            <p>A. Casual Scanners</p>
+        </ul>
+        <p>Automated bots checking for:</p>
+        <ul>
+            <li>indexing</li> 
+            <li>open ports</li> 
+            <li>default credentials</li> 
+            <li> common CVEs</li>
+        </ul>
+        <p>
+            <strong>
+                Competency: low, 
+                Frequency: extremely high, 
+                Impact: low → moderate.
+            </strong>
+        </p>
+
+
+        <ul>
+            <p>B. Script Kiddies</p>
+        </ul>
+        <p>Use prebuilt tools (sqlmap, dirsearch, nikto, metasploit modules) motivated by: </p>
+        <ul>
+            <li>Curiosity. </li> 
+            <li>Bragging rights. </li> 
+            <li>Defacement. </li> 
+        </ul>
+        <p>
+            <strong>
+                Competency: low → medium, 
+                Frequency: extremely high, 
+                Impact: moderate (website integrity + reputation)
+            </strong>
+        </p>
+
+        
+        <ul>
+            <p>C. Focused Attackers</p>
+        </ul>
+        <p>Unlikely for this project unless: </p>
+        <ul>
+            <li>SSH is exposed. </li> 
+            <li>I host from home. </li> 
+            <li>I use weak passwords. </li> 
+            <li>I expose dashboards (ELK, Wazuh, etc). </li> 
+        </ul>
+        <p>
+            <strong>
+                Competency: medium → high, 
+                Impact: high → critical.
+            </strong>
+        </p>
+
+        <ul>
+            <p>D. Opportunistic Attackers</p>
+            <li>People scanning random IPs for easy wins. </li> 
+            <li>Will exploit misconfigurations or weak setups. </li> 
+            <li>Won’t do deep targeting unless your site has obvious flaws. </li> 
+        </ul>
+        <p>
+            <strong>
+                Competency: medium, 
+                Impact: moderate → high (if misconfigured server).
+            </strong>
+        </p>
+        </section>
+
+
+        <section>
+        <h2>Attack Surface (Where they can attack)</h2>
+        <p>Even a static site has an attack surface: </p>
+        <ul>
+            <p>A. Web Server Layer</p>
+        </ul>
+        <ul>
+            <li>Misconfigured Nginx/Apache.</li>
+            <li>Indexing enabled.</li>
+            <li>Directory traversal via bad routing.</li>
+            <li>Incorrect permissions.</li>
+            <li>Exposed logs or config files.</li>
+        </ul>
+
+
+        <ul>
+            <p>B. Network Layer</p>
+        </ul>
+        <ul>
+            <li>Exposed open ports beyond HTTP.</li>
+            <li>Weak firewall rules.</li>
+            <li>Directory traversal via bad routing.</li>
+            <li>SSH brute-force attacks.</li>
+            <li>Bad NAT / port forwarding setups.</li>
+        </ul>
+
+
+        <ul>
+            <p>C. Host Layer</p>
+        </ul>
+        <ul>
+            <li>Outdated packages.</li>
+            <li>Weak system hardening.</li>
+            <li>Running unnecessary services.</li>
+            <li>Weak root or user passwords.</li>
+        </ul>
+
+        <ul>
+            <p>D. Human Layer</p>
+        </ul>
+        <ul>
+            <li>Mistakes in deployment.</li>
+            <li>Misconfigured firewall.</li>
+            <li>Forgotten test pages.</li>
+            <li>Forgetting to disable dangerous modules.</li>
+        </ul>
+
+        <ul>
+            <p>E. Content Layer</p>
+        </ul>
+        <p>Even static content can leak:</p>
+        <ul>
+            <li>Server version.</li>
+            <li>File metadata.</li>
+            <li>Internal directory names.</li>
+            <li>Comments in HTML.</li>
+            <li>Internal paths.</li>
+        </ul>
+
+        <p>
+            <strong>
+                The attack surface is not the HTML —
+                the attack surface is the hosting environment.
+            </strong>
+        </p>
+
+        </section>
+    </main>
 
 
 <footer class="site-footer">
